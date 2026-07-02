@@ -7,3 +7,11 @@ class ImageRequest(BaseModel):
 
 class ImageResponse(BaseModel):
     image: str
+    
+    
+# validate 
+prompt: str = Field(
+    ...,
+    min_length=3,
+    max_length=1000
+)

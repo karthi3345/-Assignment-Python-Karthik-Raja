@@ -16,24 +16,38 @@ async def vision(
     question: str = Form(...)
 ):
 
-    try:
+    ALLOWED_TYPES = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ]
 
-        image_bytes = await image.read()
-
-        answer = await client.vision(
-            image_bytes,
-            question
+    if image.content_type not in ALLOWED_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail="Only JPG, PNG and WEBP images are allowed."
         )
 
-        return {
-            "answer": answer
-        }
+    image_bytes = await image.read()
 
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
+    if len(image_bytes) > 5 * 1024 * 1024:
+        raise HTTPException(
+            status_code=400,
+            detail="Image size must be less than 5 MB."
+        )
 
-    raise HTTPException(
-        status_code=500,
-        detail=str(e)
+    if not question.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Question cannot be empty."
+        )
+
+    answer = await client.vision(
+        image_bytes=image_bytes,
+        question=question
     )
+
+    return {
+        "answer": answer
+    }
+    

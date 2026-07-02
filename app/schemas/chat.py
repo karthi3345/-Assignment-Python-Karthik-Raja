@@ -14,3 +14,9 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     reply: str
+    
+message: str = Field(
+    ...,
+    min_length=1,
+    max_length=5000
+)

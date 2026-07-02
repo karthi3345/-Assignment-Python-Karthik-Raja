@@ -22,3 +22,19 @@ async def root():
     return {
         "message": "Welcome to Backend Chatbot API"
     }
+    
+from app.exceptions.callmissed import CallMissedAPIException
+from app.exceptions.handlers import (
+    callmissed_exception_handler,
+    generic_exception_handler,
+)
+
+app.add_exception_handler(
+    CallMissedAPIException,
+    callmissed_exception_handler
+)
+
+app.add_exception_handler(
+    Exception,
+    generic_exception_handler
+)

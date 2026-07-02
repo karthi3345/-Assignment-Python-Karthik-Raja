@@ -2,6 +2,8 @@ import base64
 import httpx
 
 from app.core.config import settings
+from app.core.config import settings
+from app.exceptions.callmissed import CallMissedAPIException
 
 
 class CallMissedClient:
@@ -121,3 +123,29 @@ class CallMissedClient:
             data = response.json()
 
             return data["choices"][0]["message"]["content"]
+        
+def handle_response(self, response):
+
+    if response.status_code == 402:
+        raise CallMissedAPIException(
+            402,
+            "Payment Required"
+        )
+
+    if response.status_code == 403:
+        raise CallMissedAPIException(
+            403,
+            "Invalid API Key"
+        )
+
+    if response.status_code == 429:
+        raise CallMissedAPIException(
+            429,
+            "Too Many Requests"
+        )
+
+    if response.status_code >= 400:
+        raise CallMissedAPIException(
+            response.status_code,
+            "CallMissed API Error"
+        )
