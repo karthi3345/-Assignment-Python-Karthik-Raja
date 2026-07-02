@@ -45,3 +45,5 @@ from app.api import home
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(home.router)
+
+
