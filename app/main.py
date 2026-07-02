@@ -38,3 +38,10 @@ app.add_exception_handler(
     Exception,
     generic_exception_handler
 )
+
+from fastapi.staticfiles import StaticFiles
+from app.api import home
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+app.include_router(home.router)

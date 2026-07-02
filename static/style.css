@@ -1,0 +1,15 @@
+body{
+    background:#f5f5f5;
+}
+
+.container{
+    max-width:900px;
+}
+
+pre{
+    white-space:pre-wrap;
+}
+
+img{
+    border-radius:10px;
+}
